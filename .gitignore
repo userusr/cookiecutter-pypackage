@@ -102,3 +102,6 @@ python_boilerplate/
 # virtualenv
 .venv
 cookiecutter-pypackage-env
+
+# mypy
+.mypy_cache/
