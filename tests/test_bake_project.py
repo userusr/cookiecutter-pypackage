@@ -128,7 +128,6 @@ def test_bake_without_travis_pypi_setup(cookies):
         result_travis_config = yaml.load(result.project.join(".travis.yml").open())
         assert "deploy" not in result_travis_config
         assert "python" == result_travis_config["language"]
-        found_toplevel_files = [f.basename for f in result.project.listdir()]
 
 
 def test_bake_without_author_file(cookies):
