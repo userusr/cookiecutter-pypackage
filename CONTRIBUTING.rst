@@ -109,7 +109,7 @@ you already have `virtualenv` and `Git` installed and ready to go.
 
     $ tox
 
-   .. note::
+  .. note::
       If you are missing flake8, pytest and/or tox, just pip install them into your virtualenv.
 
 8. If your contribution is a bug fix or new feature, you may want to add a test to the existing test suite. See section Add a New Test below for details.
