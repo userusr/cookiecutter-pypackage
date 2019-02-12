@@ -98,3 +98,7 @@ python_boilerplate/
 
 # pyenv
 .python-version
+
+# virtualenv
+.venv
+cookiecutter-pypackage-env
