@@ -1,6 +1,16 @@
 .PHONY: clean clean-test clean-pyc clean-build docs help
 .DEFAULT_GOAL := help
 
+APP_DIR={{ cookiecutter.project_slug }}
+TESTS_DIR=tests/
+
+VENV_DIR ?= venv
+ifeq ($(wildcard ${VENV_DIR}),)
+	VENV_BIN=
+else
+	VENV_BIN=./${VENV_DIR}/bin/
+endif
+
 define BROWSER_PYSCRIPT
 import os, webbrowser, sys
 
@@ -48,46 +58,55 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr .pytest_cache
 
 lint: ## check style with flake8
-	flake8 {{ cookiecutter.project_slug }} tests
+	${VENV_BIN}/flake8 {{ cookiecutter.project_slug }} tests
+
+venv: ## make python virtualenv
+	python -m venv ${VENV_DIR}
+	${VENV_BIN}pip install -U pip pip-tools
+
+pip-requirements: ## compile requirements with pip-compile
+	${VENV_BIN}pip-compile
+	${VENV_BIN}pip-compile requirements_dev.in
+	${VENV_BIN}pip-sync requirements*.txt
 
 test: ## run tests quickly with the default Python
 {%- if cookiecutter.use_pytest == 'y' %}
-	pytest
+	${VENV_BIN}pytest
 {%- else %}
-	python setup.py test
+	${VENV_BIN}python setup.py test
 {%- endif %}
 
 test-all: ## run tests on every Python version with tox
-	tox
+	${VENV_BIN}tox
 
 coverage: ## check code coverage quickly with the default Python
 {%- if cookiecutter.use_pytest == 'y' %}
-	coverage run --source {{ cookiecutter.project_slug }} -m pytest
+	${VENV_BIN}coverage run --source {{ cookiecutter.project_slug }} -m pytest
 {%- else %}
-	coverage run --source {{ cookiecutter.project_slug }} setup.py test
+	${VENV_BIN}coverage run --source {{ cookiecutter.project_slug }} setup.py test
 {%- endif %}
-	coverage report -m
-	coverage html
+	${VENV_BIN}coverage report -m
+	${VENV_BIN}coverage html
 	$(BROWSER) htmlcov/index.html
 
 docs: ## generate Sphinx HTML documentation, including API docs
 	rm -f docs/{{ cookiecutter.project_slug }}.rst
 	rm -f docs/modules.rst
-	sphinx-apidoc -o docs/ {{ cookiecutter.project_slug }}
+	${VENV_BIN}sphinx-apidoc -o docs/ {{ cookiecutter.project_slug }}
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
 	$(BROWSER) docs/_build/html/index.html
 
 servedocs: docs ## compile the docs watching for changes
-	watchmedo shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D .
+	${VENV_BIN}watchmedo shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D .
 
 release: dist ## package and upload a release
-	twine upload dist/*
+	${VENV_BIN}twine upload dist/*
 
 dist: clean ## builds source and wheel package
-	python setup.py sdist
-	python setup.py bdist_wheel
+	${VENV_BIN}python setup.py sdist
+	${VENV_BIN}python setup.py bdist_wheel
 	ls -l dist
 
 install: clean ## install the package to the active Python's site-packages
-	python setup.py install
+	${VENV_BIN}python setup.py install

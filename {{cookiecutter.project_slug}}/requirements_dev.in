@@ -1,0 +1,43 @@
+{% if cookiecutter.command_line_interface|lower == 'click' -%}
+Click==7.0{% endif %}
+{% if cookiecutter.use_pytest == 'y' -%}
+pytest
+pytest-runner
+pytest-env
+pytest-randomly
+pytest-deadfixtures
+pytest-flask
+pytest-factoryboy{% endif %}
+
+pip
+pip-tools
+bump2version
+wheel
+watchdog
+Sphinx
+tox
+coverage
+twine
+
+isort
+black
+mypy
+
+pylint
+
+flake8
+flake8-bugbear
+flake8-commas
+flake8-eradicate
+flake8-mock
+flake8-black
+flake8-isort
+flake8-string-format
+flake8-quotes
+flake8-bandit
+flake8-blind-except
+flake8-builtins
+flake8-docstrings
+flake8-logging-format
+flake8-pytest-style
+pep8-naming
