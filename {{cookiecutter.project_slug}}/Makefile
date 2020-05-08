@@ -61,8 +61,8 @@ lint: ## check style with flake8
 	${VENV_BIN}/flake8 {{ cookiecutter.project_slug }} tests
 
 venv: ## make python virtualenv
-	python -m venv ${VENV_DIR}
-	${VENV_BIN}pip install -U pip pip-tools
+	python -m venv ${VENV_DIR} && \
+	./${VENV_DIR}/bin/pip install -U pip pip-tools
 
 pip-requirements: ## compile requirements with pip-compile
 	${VENV_BIN}pip-compile
