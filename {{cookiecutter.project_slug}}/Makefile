@@ -69,9 +69,15 @@ pip-requirements: ## compile requirements with pip-compile
 	${VENV_BIN}pip-compile requirements_dev.in
 	${VENV_BIN}pip-sync requirements*.txt
 
+lint: ## check style
+	${VENV_BIN}isort -rc ${APP_DIR} ${TESTS_DIR}
+	${VENV_BIN}black ${APP_DIR} ${TESTS_DIR}
+	${VENV_BIN}flake8 ${APP_DIR}
+
 test: ## run tests quickly with the default Python
 {%- if cookiecutter.use_pytest == 'y' %}
 	${VENV_BIN}pytest
+	${VENV_BIN}pytest --dead-fixtures
 {%- else %}
 	${VENV_BIN}python setup.py test
 {%- endif %}
