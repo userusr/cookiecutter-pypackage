@@ -57,9 +57,6 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr htmlcov/
 	rm -fr .pytest_cache
 
-lint: ## check style with flake8
-	${VENV_BIN}/flake8 {{ cookiecutter.project_slug }} tests
-
 venv: ## make python virtualenv
 	python -m venv ${VENV_DIR} && \
 	./${VENV_DIR}/bin/pip install -U pip pip-tools
