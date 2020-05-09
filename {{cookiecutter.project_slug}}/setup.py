@@ -1,8 +1,20 @@
 #!/usr/bin/env python
-
 """The setup script."""
 
 from setuptools import setup, find_packages
+from pkg_resources import parse_requirements
+
+
+def load_requirements(fname: str) -> list:
+    requirements = []
+    with open(fname, 'r') as fp:
+        for req in parse_requirements(fp.read()):
+            extras = '[{}]'.format(','.join(req.extras)) if req.extras else ''
+            requirements.append(
+                '{}{}{}'.format(req.name, extras, req.specifier)
+            )
+    return requirements
+
 
 with open('README.rst') as readme_file:
     readme = readme_file.read()
@@ -27,21 +39,18 @@ test_requirements = [{%- if cookiecutter.use_pytest == 'y' %}'pytest>=3',{%- end
 setup(
     author="{{ cookiecutter.full_name.replace('\"', '\\\"') }}",
     author_email='{{ cookiecutter.email }}',
-    python_requires='>=3.5',
+    description="{{ cookiecutter.project_short_description }}"
+    python_requires='>=3.8',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
 {%- if cookiecutter.open_source_license in license_classifiers %}
         '{{ license_classifiers[cookiecutter.open_source_license] }}',
 {%- endif %}
-        'Natural Language :: English',
+        'Natural Language :: Russian',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
     ],
-    description="{{ cookiecutter.project_short_description }}",
     {%- if 'no' not in cookiecutter.command_line_interface|lower %}
     entry_points={
         'console_scripts': [
@@ -50,6 +59,7 @@ setup(
     },
     {%- endif %}
     install_requires=requirements,
+    extras_require={'dev': load_requirements('requirements_dev.txt')},
 {%- if cookiecutter.open_source_license in license_classifiers %}
     license="{{ cookiecutter.open_source_license }}",
 {%- endif %}
