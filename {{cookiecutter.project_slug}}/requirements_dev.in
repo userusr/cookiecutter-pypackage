@@ -4,7 +4,6 @@ pytest-runner
 pytest-env
 pytest-randomly
 pytest-deadfixtures
-pytest-flask
 pytest-factoryboy{% endif %}
 
 pip
