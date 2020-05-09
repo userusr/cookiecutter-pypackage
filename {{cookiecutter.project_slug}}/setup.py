@@ -39,7 +39,7 @@ test_requirements = [{%- if cookiecutter.use_pytest == 'y' %}'pytest>=3',{%- end
 setup(
     author="{{ cookiecutter.full_name.replace('\"', '\\\"') }}",
     author_email='{{ cookiecutter.email }}',
-    description="{{ cookiecutter.project_short_description }}"
+    description="{{ cookiecutter.project_short_description }}",
     python_requires='>=3.8',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
