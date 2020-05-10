@@ -5,28 +5,15 @@ from setuptools import setup, find_packages
 from pkg_resources import parse_requirements
 
 
-def load_requirements(fname: str) -> list:
-    requirements = []
-    with open(fname, 'r') as fp:
-        for req in parse_requirements(fp.read()):
-            extras = '[{}]'.format(','.join(req.extras)) if req.extras else ''
-            requirements.append(
-                '{}{}{}'.format(req.name, extras, req.specifier)
-            )
-    return requirements
-
-
 with open('README.rst') as readme_file:
     readme = readme_file.read()
 
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = [{%- if cookiecutter.command_line_interface|lower == 'click' %}'Click>=7.0',{%- endif %} ]
-
-setup_requirements = [{%- if cookiecutter.use_pytest == 'y' %}'pytest-runner',{%- endif %} ]
-
-test_requirements = [{%- if cookiecutter.use_pytest == 'y' %}'pytest>=3',{%- endif %} ]
+requirements = [
+    {%- if cookiecutter.command_line_interface|lower == 'click' %}'Click>=7.0',{%- endif %}
+]
 
 {%- set license_classifiers = {
     'MIT license': 'License :: OSI Approved :: MIT License',
@@ -59,7 +46,6 @@ setup(
     },
     {%- endif %}
     install_requires=requirements,
-    extras_require={'dev': load_requirements('requirements_dev.txt')},
 {%- if cookiecutter.open_source_license in license_classifiers %}
     license="{{ cookiecutter.open_source_license }}",
 {%- endif %}
@@ -68,9 +54,7 @@ setup(
     keywords='{{ cookiecutter.project_slug }}',
     name='{{ cookiecutter.project_slug }}',
     packages=find_packages(include=['{{ cookiecutter.project_slug }}', '{{ cookiecutter.project_slug }}.*']),
-    setup_requires=setup_requirements,
     test_suite='tests',
-    tests_require=test_requirements,
     url='https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}',
     version='{{ cookiecutter.version }}',
     zip_safe=False,
