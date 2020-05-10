@@ -34,7 +34,7 @@ def _init_logging(verbose: int) -> None:
 {% if cookiecutter.command_line_interface|lower == 'click' %}
 @click.command()
 @click.option("-v", "--verbose", default=1, count=True)
-def main(verbose: int, args=None) -> None:
+def main(verbose: int) -> int:
     """Console script for {{cookiecutter.project_slug}}."""
     _init_logging(verbose)
     logger = logging.getLogger("cli.main")

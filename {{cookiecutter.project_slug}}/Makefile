@@ -50,6 +50,8 @@ clean-pyc: ## remove Python file artifacts
 	find . -name '*.pyo' -exec rm -f {} +
 	find . -name '*~' -exec rm -f {} +
 	find . -name '__pycache__' -exec rm -fr {} +
+	rm -rf .mypy_cache
+	rm -f .dmypy.json
 
 clean-test: ## remove test and coverage artifacts
 	rm -fr .tox/
@@ -70,6 +72,7 @@ lint: ## check style
 	${VENV_BIN}isort -rc ${APP_DIR} ${TESTS_DIR}
 	${VENV_BIN}black ${APP_DIR} ${TESTS_DIR}
 	${VENV_BIN}flake8 ${APP_DIR}
+	${VENV_BIN}mypy ${APP_DIR}
 
 test: ## run tests quickly with the default Python
 {%- if cookiecutter.use_pytest == 'y' %}

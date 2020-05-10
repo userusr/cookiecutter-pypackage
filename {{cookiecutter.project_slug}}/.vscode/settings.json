@@ -6,6 +6,13 @@
     "python.linting.flake8Args": [
         "--exclude tests,venv,.tox,.git,__pycache__,.eggs"
     ],
+    "python.linting.mypyEnabled": true,
+    "python.linting.mypyArgs": [
+        "--ignore-missing-imports",
+        "--follow-imports=silent",
+        "--show-column-numbers",
+        "--files {{ cookiecutter.project_slug }}/*.py"
+    ],
     "python.testing.unittestEnabled": true,
     "python.testing.nosetestsEnabled": false,
     "python.testing.pytestEnabled": true,
