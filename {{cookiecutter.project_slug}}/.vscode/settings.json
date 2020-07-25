@@ -4,7 +4,7 @@
     "python.linting.pylintEnabled": false,
     "python.linting.flake8Enabled": true,
     "python.linting.flake8Args": [
-        "--exclude tests,venv,.tox,.git,__pycache__,.eggs"
+        "--exclude=tests,venv,.tox,.git,__pycache__,.eggs"
     ],
     "python.linting.mypyEnabled": true,
     "python.linting.mypyArgs": [
